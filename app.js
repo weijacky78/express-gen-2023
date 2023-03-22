@@ -20,6 +20,27 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+//middleware: no path ->
+// run for every request that reaches this line
+app.use((req, res, next) => {
+  console.log("cookie user" + req.cookies.user);
+  if (req.query.u != undefined) { // if there is a u parameter in the qs
+    //record that username, create/store login object onto req
+    req.login = {
+      username: req.query.u.toLowerCase().trim(),
+      auth: true
+    };
+
+  } else {
+    req.login = {
+      username: null,
+      auth: false
+    }
+  }
+  // res.send(req.login.username);
+  next();
+});
+
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/books/', booksRouter);

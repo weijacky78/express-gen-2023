@@ -3,7 +3,10 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
-  res.render('index', { title: 'ExpressJS Lab2 -- Xin' });
+  res.render('index', {
+    title: 'ExpressJS Lab3 -- Xin',
+    name: req.login.auth ? req.login.username : "guest"
+  });
 });
 
 router.all('/', function (req, res, next) {
