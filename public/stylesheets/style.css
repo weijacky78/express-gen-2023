@@ -6,3 +6,17 @@ body {
 a {
   color: #00B7FF;
 }
+
+.gallery {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.gallery .photos {
+  max-width: 30%;
+  min-width: 200px;
+}
+
+.gallery .photos img {
+  width: 100%;
+}
