@@ -1,9 +1,12 @@
 var express = require('express');
 var router = express.Router();
 
+// const router = require('express').Router(); shortcut for line 1 ,2
+
 /* GET home page. */
 router.get('/', function (req, res, next) {
   res.render('index', {
+    layout: null,
     title: 'ExpressJS Lab3 -- Xin',
     name: req.login.auth ? req.login.username : "guest"
   });
