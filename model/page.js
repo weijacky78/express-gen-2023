@@ -27,6 +27,12 @@ module.exports = {
             };
         }
         return ret; // return result structure
+    },
+    'getMenuItems': async function () {
+        let conn = await db.getConnection();
+        const result = await conn.query("select page_id, title, content, `key` from page where menu_order is not null order by menu_order");
+        conn.end();
+        return result;
     }
 
 };

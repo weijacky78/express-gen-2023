@@ -20,3 +20,14 @@ a {
 .gallery .photos img {
   width: 100%;
 }
+
+.photo-menu {
+  display: flex;
+}
+
+.photo-thumb {
+  width: 100px;
+  height: 100px;
+  background-size: cover;
+  background-position: no-repeat center;
+}

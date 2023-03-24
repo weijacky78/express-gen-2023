@@ -1,5 +1,7 @@
+{{> menu}}
 <div class="gallery">
-    {{#each this}}
+    {{#each data}}
+    {{!-- data is a member of the passed data structure, should include the rows from db table "photo" --}}
     {{#if filename}}
     <div class="photos">
         <a href="./photo/{{photo_id}}"> <img src='/images/gallery/{{filename}}' />
