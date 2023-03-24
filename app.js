@@ -12,6 +12,9 @@ const app = express();
 
 const hbs = require('hbs');
 
+// const user = require('./model/user');
+// user.addUser("bob", "bob@bob.com", "1234");
+
 //register partials
 hbs.registerPartials(__dirname + '/views/partials');
 
