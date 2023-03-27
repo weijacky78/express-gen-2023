@@ -1,5 +1,5 @@
 {{#if login.loggedIn}}
-Welcome back {{login.user.username}}
+<div class="loggedin">Welcome back {{login.user.username}}! <a href="?logout">Logout</a></div>
 {{else}}
 <form action="/login" method="post">
     {{!-- ?action=login --}}
@@ -9,7 +9,7 @@ Welcome back {{login.user.username}}
     {{!-- &username=... --}}
     <input type="text" name="username" placeholder="Username">
     {{!-- &password=... --}}
-    <input type="text" name="password" placeholder="Password">
+    <input type="password" name="password" placeholder="Password">
     <input type="submit" value="Login">
 </form>
 
