@@ -9,7 +9,7 @@ router.get('/', async (req, res) => {
 
     // console.log(photos.rows);
     //render template 'index.hbs', send the menu items as "menu", photo records as  "data"
-    res.render('photos', { menu: menuItems, data: photos.rows });
+    res.render('photos', { menu: menuItems, data: photos.rows, login: req.login });
 });
 
 router.get('/:photo_id([1-9][0-9]?)', async (req, res) => {
@@ -17,7 +17,13 @@ router.get('/:photo_id([1-9][0-9]?)', async (req, res) => {
     const img = await photo.getPhoto(req.params.photo_id);
     const photos = await photo.getPhotos();
     const menuItems = await page.getMenuItems();
-    res.render('photo', { data: img.rows, menu: menuItems, photos: photos.rows });
+
+    res.render('photo', {
+        data: img.rows,
+        menu: menuItems,
+        photos: photos.rows,
+        login: req.login
+    });
 
 });
 

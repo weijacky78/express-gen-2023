@@ -30,8 +30,10 @@ let loadPage = async function (key, req, res, next) {
     res.render('index', { //render template 'index.hbs', send the page title, page content
       menu: menuItems,
       title: pg.row.title,
-      name: req.login.auth ? req.login.username : "guest",
-      content: pg.row.content
+      login: req.login,
+      content: pg.row.content,
+      redirect: req.baseUrl + req.path
+      // home/1
     });
   }
 };

@@ -8,11 +8,13 @@ const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const booksRouter = require('./routes/books');
 const photoRouter = require('./routes/photo');
+
+const user = require('./model/user');
 const app = express();
 
 const hbs = require('hbs');
 
-// const user = require('./model/user');
+
 // user.addUser("bob", "bob@bob.com", "1234");
 
 //register partials
@@ -30,22 +32,42 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 //middleware: no path ->
 // run for every request that reaches this line
-app.use((req, res, next) => {
-  console.log("cookie user" + req.cookies.user);
-  if (req.query.u != undefined) { // if there is a u parameter in the qs
-    //record that username, create/store login object onto req
-    req.login = {
-      username: req.query.u.toLowerCase().trim(),
-      auth: true
-    };
+app.use(async (req, res, next) => {
 
-  } else {
-    req.login = {
-      username: null,
-      auth: false
+  req.login = { loggedIn: false };
+
+  if (req.body.username != undefined && req.body.password != undefined && req.body.action == 'login') {
+
+    let auth = await user.passwordLogin(
+      req.body.username,
+      req.body.password);
+
+    req.login = auth;
+
+    // if logged in, set cookies
+    if (req.login.loggedIn) {
+      // store a cookie for the user_id
+      res.cookie('uid', req.login.user.user_id, { maxAge: 1000 * 60 * 60 * 24 * 7 });
+      // store a cookie for the cookie code
+      res.cookie('ch', req.login.cookie, { maxAge: 1000 * 60 * 60 * 24 * 7 });
+      console.log('requested redirect' + req.body.redirect);
+      if (req.body.redirect != undefined &&
+        req.body.redirect != '' &&
+        req.body.redirect != null &&
+        !req.body.redirect.isEmpty()
+      ) {
+        res.redirect(req.body.redirect);
+      } else {
+        res.redirect('/');
+      }
     }
+  } else if (req.cookies.uid != undefined && req.cookies.ch != undefined) {
+    // if the uid and cookie code are set, try logging in with cookies
+    let auth = await user.cookieLogin(req.cookies.uid, req.cookies.ch);
+    req.login = auth;
+
   }
-  // res.send(req.login.username);
+
   next();
 });
 
